@@ -1,31 +1,60 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import { useEffect, useState } from "react";
 
-export default function Search() {
-  const treesAndPlants = [];
+export default function Search({ categories, setEntities, setTitle, setSummary }) {
+  const [theme, setTheme] = useState([]);
 
-  const categories = [
-    { themeId: 1, themeName: "Tree Tour" },
-    { themeId: 3, themeName: "Legume Family" },
-    { themeId: 4, themeName: "Grass Family" },
-    { themeId: 5, themeName: "Edible" },
-    { themeId: 6, themeName: "Medicinal" },
-    { themeId: 18, themeName: "Shakespeare Tree Tour" },
-    { themeId: 19, themeName: "Butterflies" },
-    { themeId: 20, themeName: "Birds" },
-    { themeId: 24, themeName: "Flowering Trees of WSU" },
-    { themeId: 26, themeName: "Cultivar Garden" },
-    { themeId: 27, themeName: "Bioswale #3" },
-    { themeId: 28, themeName: "Bioswale #1 & #2" },
-    { themeId: 29, themeName: "Bioswale #4" },
-    { themeId: 30, themeName: "Bioswale #5" },
-    { themeId: 34, themeName: "Younger Courtyard" },
-  ];
-  const selectOptions = categories.map(({ themeId, themeName }) => (
-    <option key={themeId} value={themeName}>
-      {themeName}
-    </option>
-  ));
+  const selectOptions = categories?.length
+    ? categories.map(({ themeId, themeName }) => (
+        <option key={themeId} value={themeId}>
+          {themeName}
+        </option>
+      ))
+    : null;
+
+  useEffect(() => {
+    const fetchEntityList = async () => {
+      if (theme.length) {
+        try {
+          const response = await fetch(`http://127.0.0.1:8000/api/themes/${theme}`, {
+            method: "GET",
+          });
+          const data = await response.json();
+          if (data && Array.isArray(data)) {
+            setEntities(data);
+          } else {
+            console.error("No data available for selected theme:", data);
+          }
+        } catch (error) {
+          console.error("Error fetching theme data:", error);
+        }
+      }
+    };
+    const fetchThemeInfo = async () => {
+      if (theme.length) {
+        try {
+          const response = await fetch(`http://127.0.0.1:8000/api/summary/${theme}`, {
+            method: "GET",
+          });
+          const data = await response.json();
+          if (data) {
+            setTitle(data["themeName"]);
+            setSummary(data["description"]);
+          } else {
+            console.error("No summary data available:", data);
+          }
+        } catch (error) {
+          console.error("Error fetching summary data:", error);
+        }
+      }
+    };
+    fetchThemeInfo();
+    fetchEntityList();
+  }, [theme]);
+  const handleSelectionChange = (event) => {
+    setTheme(() => [event.target.value]);
+  };
   return (
     <>
       <div className="flex flex-col md:flex-row bg-wsu-purple w-3/4 md:w-full mt-16 justify-center rounded-lg py-4 md:max-w-screen-lg">
@@ -42,6 +71,7 @@ export default function Search() {
             className="border p-2 rounded w-3/4 self-center md:w-80 h-10 ring-yellow-400"
             defaultValue=""
             name="category"
+            onChange={handleSelectionChange}
           >
             <option value="" disabled hidden>
               Category
