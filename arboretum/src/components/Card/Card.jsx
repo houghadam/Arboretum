@@ -14,8 +14,12 @@ export default function Card({ treeDetails }) {
     <>
       <div className="flex flex-col md:flex-row border shadow-md rounded-lg bg-white p-8 md:w-5/12 gap-2">
         <div className="flex flex-col md:w-1/2">
-          <h2 className="font-black text-2xl">{treeDetails["Common Name"]}</h2>
-          <h3 className="font-semlbold text-lg -mt-1">{treeDetails["Scientific Name"]}</h3>
+          <h2 className="font-black text-2xl text-nowrap overflow-x-scroll">
+            {treeDetails["Common Name"]}
+          </h2>
+          <h3 className="font-semlbold text-lg -mt-1 text-nowrap overflow-x-scroll">
+            {treeDetails["Scientific Name"]}
+          </h3>
           <p className="text-sm overflow-y-scroll h-52 mt-2">{treeDetails["Description"]}</p>
           <div className="flex justify-between mt-8">
             <FontAwesomeIcon
