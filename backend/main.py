@@ -4,6 +4,10 @@ import requests
 import asyncio
 import helpers
 
+
+# TODO: Add /api/search route for returning a single entity when passed entity id
+
+
 app = FastAPI()
 
 # Allowed origins for CORS
