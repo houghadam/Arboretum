@@ -21,6 +21,7 @@ import {
   faCrown,
   faCircleInfo,
   faInfo,
+  faCirclePlay,
 } from "@fortawesome/free-solid-svg-icons";
 import Popover from "../Popover/Popover";
 
@@ -109,7 +110,6 @@ export default function Card({ treeDetails }) {
                 />
               }
               title="Bark"
-              paragraph={true}
               content={treeDetails["Bark"]}
             />
           )}
@@ -152,6 +152,7 @@ export default function Card({ treeDetails }) {
                 />
               }
               title="Flower"
+              paragraph={true}
               content={treeDetails["Flower"]}
             />
           )}
@@ -342,6 +343,17 @@ export default function Card({ treeDetails }) {
               paragraph={true}
               content={treeDetails["Other Information"]}
             />
+          )}
+          {treeDetails["Audio"] && treeDetails["Audio"] !== null && (
+            <button
+              onClick={() => {
+                const audio = new Audio(treeDetails["Audio"]);
+                audio.play();
+              }}
+              className="hover:text-indigo-600"
+            >
+              <FontAwesomeIcon icon={faCirclePlay} size="xl" color="#4B08A1" />
+            </button>
           )}
         </div>
       </div>
