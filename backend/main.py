@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from curl_cffi.requests import AsyncSession
 import requests
 import asyncio
 import helpers
@@ -13,6 +14,8 @@ app = FastAPI()
 # Allowed origins for CORS
 origins = [
     "http://localhost:5173",
+    "http://192.168.1.111:5173",
+    "http://192.168.1.41:5173",
 ]
 # Middleware to allow requests from different origin
 app.add_middleware(
@@ -64,11 +67,12 @@ def get_details(entities):
         Input: None
         Return: None
         """
-        tasks = await helpers.create_task_list(entities)
-        for future in asyncio.as_completed(tasks):
-            results = await future
-            if results:
-                detailsJSON.append(results)
+        async with AsyncSession() as s:
+            tasks = await helpers.create_task_list(entities, s)
+            for future in asyncio.as_completed(tasks):
+                results = await future
+                if results:
+                    detailsJSON.append(results)
 
     asyncio.run(main())
     return detailsJSON
