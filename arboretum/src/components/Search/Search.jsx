@@ -17,7 +17,7 @@ export default function Search({ categories, setEntities, setTitle, setSummary }
     const fetchEntityList = async () => {
       if (theme.length) {
         try {
-          const response = await fetch(`http://127.0.0.1:8000/api/themes/${theme}`, {
+          const response = await fetch(`http://localhost:8000/api/themes/${theme}`, {
             method: "GET",
           });
           const data = await response.json();
@@ -34,7 +34,7 @@ export default function Search({ categories, setEntities, setTitle, setSummary }
     const fetchThemeInfo = async () => {
       if (theme.length) {
         try {
-          const response = await fetch(`http://127.0.0.1:8000/api/summary/${theme}`, {
+          const response = await fetch(`http://localhost:8000/api/summary/${theme}`, {
             method: "GET",
           });
           const data = await response.json();

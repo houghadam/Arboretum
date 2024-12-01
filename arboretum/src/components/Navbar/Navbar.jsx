@@ -3,8 +3,8 @@ export default function Navbar() {
     <>
       <nav className="flex justify-between items-center w-screen bg-wsu-purple text-white px-12 py-4">
         <div className="flex items-end gap-6">
-          <img src="public/wsu.svg" alt="WSU Logo" className="w-12 h-12" />
-          <h1 className="font-semibold text-xl">WSU Arboretum</h1>
+          <img src="/wsu.svg" alt="WSU Logo" className="w-12 h-12" />
+          <h1 className="font-semibold text-xl hidden md:block">WSU Arboretum</h1>
         </div>
         <div className="flex gap-8">
           <a href="" className="font-semibold">

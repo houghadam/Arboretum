@@ -5,7 +5,7 @@ export default function Category({ title, description }) {
         {title}
       </h1> */}
       <h1 className="text-wsu-purple text-2xl font-bold">{title}</h1>
-      <p className="mt-4 mb-8 max-w-4xl self-center">{description}</p>
+      <p className="mt-4 mb-8 max-w-80 md:max-w-4xl self-center">{description}</p>
     </div>
   );
 }
