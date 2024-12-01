@@ -42,6 +42,12 @@ async def get_entity(entity):
                 for attribute in data["attributeValues"]:
                     key = attribute["attributeName"]
                     details[key] = attribute["attributeValue"]
+                if "description" not in list(details.keys()):
+                    details["Description"] = data["description"]
+                if "Common Name" not in list(details.keys()):
+                    details["Common Name"] = data["displayName"]
+                if "Scientific Name" not in list(details.keys()):
+                    details["Scientific Name"] = data["displayName"]
                 return details
             except Exception as e:
                 print(f"Error getting entity: {e}")
