@@ -4,16 +4,18 @@ import Category from "./components/Category/Category";
 import Navbar from "./components/Navbar/Navbar";
 import Search from "./components/Search/Search";
 
-/* TODO: Create information button for every possible attribute. 
+/* DONE: Create information button for every possible attribute. 
       Map available attributes to correct button. 
       Only display buttons which have attributes for specific plant/tree.
 
-  TODO: When common name is unavailable, display scientific name as common name
+  DONE: When common name is unavailable, display scientific name as common name
 
   TODO: Standardize image height/width (aspect ratio)
 
   TODO: Search function -- autocomplete based on common or scientific name.
       returns entity id to use for api query
+
+  TODO: Add audio and additional images from resources
 */
 
 function App() {
@@ -27,12 +29,13 @@ function App() {
     const fetchEntityDetails = async () => {
       if (entities.length) {
         try {
-          const response = await fetch(`http://127.0.0.1:8000/api/entities/${entities}`, {
+          const response = await fetch(`http://localhost:8000/api/entities/${entities}`, {
             method: "GET",
           });
           const data = await response.json();
           if (data && Array.isArray(data)) {
             setTreeData(data);
+            console.log(data);
           } else {
             console.error("No entity data available:", data);
           }
@@ -47,7 +50,7 @@ function App() {
   useEffect(() => {
     const fetchThemesList = async () => {
       try {
-        const response = await fetch("http://127.0.0.1:8000/api/theme/themelist", {
+        const response = await fetch("http://localhost:8000/api/theme/themelist", {
           method: "GET",
         });
         const data = await response.json();
@@ -65,7 +68,7 @@ function App() {
 
   return (
     <>
-      <div className="flex flex-col items-center h-screen w-screen flex-grow overflow-y-auto bg-neutral-50">
+      <div className="flex flex-col items-center h-screen w-screen flex-grow overflow-y-auto overflow-x-hidden bg-neutral-50">
         <Navbar />
         <Search
           setEntities={setEntities}
