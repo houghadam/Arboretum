@@ -48,12 +48,26 @@ export default function Card({ treeDetails }) {
           </div>
         </div>
         <div className="flex justify-between mt-8">
-          <FontAwesomeIcon
-            icon={faLocationDot}
-            size="xl"
-            color="#4B08A1"
-            className="hover:text-indigo-600"
-          />
+          {treeDetails["latitude"] && treeDetails["latitude"] != null && ( //assumes if theres a latitude we have longitude
+            <Popover
+              children={
+                <a
+                  href={`https://www.google.com/maps?q=${treeDetails["latitude"]},${treeDetails["longitude"]}(${treeDetails["Common Name"]})`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <FontAwesomeIcon
+                    icon={faLocationDot}
+                    size="xl"
+                    color="#4B08A1"
+                    className="hover:text-indigo-600"
+                  />
+                </a>
+              }
+            title="Location"
+            paragraph={false}
+            />
+          )}
           {treeDetails["Memorial"] && treeDetails["Memorial"] != null && (
             <Popover
               children={

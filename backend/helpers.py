@@ -37,6 +37,11 @@ async def get_entity(entity, session):
         try:
             details["entityId"] = data["entityId"]
             details["defaultImagePath"] = data["defaultImagePath"]
+
+            if len(data["geoLocation"]) > 0:
+                details["latitude"] = float(eval(data["geoLocation"])[0]["Lat"])
+                details["longitude"] = float(eval(data["geoLocation"])[0]["Lng"])
+
             for attribute in data["attributeValues"]:
                 key = attribute["attributeName"]
                 details[key] = attribute["attributeValue"]
