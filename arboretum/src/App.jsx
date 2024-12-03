@@ -10,12 +10,12 @@ import Search from "./components/Search/Search";
 
   DONE: When common name is unavailable, display scientific name as common name
 
-  TODO: Standardize image height/width (aspect ratio)
+  NO LONGER NEEDED: Standardize image height/width (aspect ratio)
 
   TODO: Search function -- autocomplete based on common or scientific name.
       returns entity id to use for api query
 
-  TODO: Add audio and additional images from resources
+  DONE:(Add audio) TODO: additional images from resources
 */
 
 function App() {
