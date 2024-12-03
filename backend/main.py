@@ -130,3 +130,48 @@ def theme_list():
     else:
         print(f"Fetching theme list returned error code: {response.status_code}")
     return themes
+
+
+@app.get("/api/list/entities")
+def entities_list():
+    """
+    Fetches all entity IDs and matching common name
+    Input: None
+    Return: list of dicts
+    """
+    url = "https://w3.winona.edu/locations/api/themes/"
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.6 Safari/605.1.15"
+    }
+    themes = []
+    entity_list = []
+    response = requests.request("GET", url, headers=headers)
+
+    if response.status_code == 200:
+        data = response.json()
+        try:
+            for d in data:
+                themes.append(d["themeId"])
+        except Exception as e:
+            print(f"Error getting theme list: {e}")
+    else:
+        print(f"Fetching theme list returned error code: {response.status_code}")
+
+    async def get_entities_from_theme():
+        """
+        Handles async fetching (necessary for larger themes)
+        Input: None
+        Return: None
+        """
+        async with AsyncSession() as s:
+            tasks = []
+            for theme in themes:
+                task = asyncio.create_task(helpers.get_theme(theme, s))
+                tasks.append(task)
+            for future in asyncio.as_completed(tasks):
+                results = await future
+                if results:
+                    entity_list.extend(results)
+
+    asyncio.run(get_entities_from_theme())
+    return entity_list
