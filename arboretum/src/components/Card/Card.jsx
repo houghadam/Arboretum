@@ -23,9 +23,11 @@ import {
   faInfo,
   faCirclePlay,
 } from "@fortawesome/free-solid-svg-icons";
+import { Carousel } from 'flowbite-react'
 import Popover from "../Popover/Popover";
 
 export default function Card({ treeDetails }) {
+
   return (
     <>
       <div className="flex flex-col border shadow-md rounded-lg bg-white p-8 w-80 md:w-5/12 gap-2">
@@ -40,11 +42,16 @@ export default function Card({ treeDetails }) {
             <p className="text-sm overflow-y-scroll h-64 mt-2">{treeDetails["Description"]}</p>
           </div>
           <div className="flex justify-center md:justify-end items-center md:w-1/2 mt-6 md:mt-0">
-            <img
-              src={treeDetails["defaultImagePath"]}
-              alt={treeDetails["Common Name"]}
-              className="h-80 w-auto rounded-lg shadow-md border"
-            />
+            <Carousel slide={false}>
+              {treeDetails["additionalImages"].map((path, index) => (
+                <img
+                  key={index}
+                  src={path}
+                  alt={`${treeDetails["Common Name"]} - Image ${index + 1}`}
+                  className="h-80 w-auto rounded-lg shadow-md border"
+                />
+              ))}
+            </Carousel>
           </div>
         </div>
         <div className="flex justify-between mt-8">
