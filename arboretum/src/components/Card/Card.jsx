@@ -42,16 +42,24 @@ export default function Card({ treeDetails }) {
             <p className="text-sm overflow-y-scroll h-64 mt-2">{treeDetails["Description"]}</p>
           </div>
           <div className="flex justify-center md:justify-end items-center md:w-1/2 mt-6 md:mt-0">
-            <Carousel slide={false}>
-              {treeDetails["additionalImages"].map((path, index) => (
-                <img
-                  key={index}
-                  src={path}
-                  alt={`${treeDetails["Common Name"]} - Image ${index + 1}`}
-                  className="h-80 w-auto rounded-lg shadow-md border"
-                />
-              ))}
-            </Carousel>
+            {treeDetails["additionalImages"].length > 1 ? (
+              <Carousel slide={false}>
+                {treeDetails["additionalImages"].map((path, index) => (
+                  <img
+                    key={index}
+                    src={path}
+                    alt={`${treeDetails["Common Name"]} - Image ${index + 1}`}
+                    className="h-80 w-auto rounded-lg shadow-md border"
+                  />
+                ))}
+              </Carousel>
+            ) : (
+              <img
+                src={treeDetails["additionalImages"][0] || treeDetails["defaultImagePath"]} // Provide a fallback if no image is available
+                alt={`${treeDetails["Common Name"]} - Image`}
+                className="h-80 w-auto rounded-lg shadow-md border"
+              />
+            )}
           </div>
         </div>
         <div className="flex justify-between mt-8">
